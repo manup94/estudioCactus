@@ -19,7 +19,6 @@ const MaterialSelector: React.FC<MaterialSelectorProps> = ({
   const handleClick = (materialId: string) => {
     setSelection({ [pointId]: materialId })
   }
-
   return (
     <div className="h-2/3 flex flex-col gap-y-3">
       {materials?.map((material: DocumentData) => (
