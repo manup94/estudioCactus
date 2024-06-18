@@ -21,9 +21,9 @@ const MaterialSelector: React.FC<MaterialSelectorProps> = ({
   }
   return (
     <div className="h-2/3 flex flex-col gap-y-3">
-      {materials?.map((material: DocumentData) => (
-        <Suspense key={material.id} fallback={<Skeleton />}>
-          <DropdownMenu.Item className="outline-white">
+      {materials?.map((material: DocumentData) => {
+        return (
+          <DropdownMenu.Item key={material.id} className="outline-white">
             <button
               onClick={() => handleClick(material.id)}
               className={clsx(
@@ -34,18 +34,20 @@ const MaterialSelector: React.FC<MaterialSelectorProps> = ({
               )}
             >
               <p className="text-[#9e9c9b] font-semibold">{material.name}</p>
-              <Image
-                priority
-                src={material.materialPreview}
-                alt={material.name}
-                width={100}
-                height={100}
-                className="max-w-[100px] max-h-[100px] rounded-md"
-              />
+              <Suspense fallback={<Skeleton />}>
+                <Image
+                  priority
+                  src={material.materialPreview}
+                  alt={material.name}
+                  width={100}
+                  height={100}
+                  className="max-w-[100px] max-h-[100px] rounded-md"
+                />
+              </Suspense>
             </button>
           </DropdownMenu.Item>
-        </Suspense>
-      ))}
+        )
+      })}
     </div>
   )
 }
