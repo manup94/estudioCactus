@@ -12,7 +12,7 @@ const RoomConfigurator: React.FC = async () => {
   )
 }
 
-export async function fetchData() {
+async function fetchData() {
   const pointsCollection = collection(db, "points")
   const materialsCollection = collection(db, "materials")
 
