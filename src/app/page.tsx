@@ -6,7 +6,7 @@ const RoomConfigurator: React.FC = async () => {
   const initalData = await fetchData()
 
   return (
-    <div className="flex justify-center bg-[#1f1f1f] ">
+    <div className="w-screen h-screen bg-[#1f1f1f]">
       <RoomEditor initialData={initalData} />
     </div>
   )

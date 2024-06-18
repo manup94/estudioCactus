@@ -1,44 +1,28 @@
-"use client"
-
 import Image from "next/image"
 import Points from "./points"
-import { useState } from "react"
 import { DocumentData } from "firebase/firestore"
-import MaterialSelector from "./material/material-selector"
+import ScrollIcon from "../icons/scroll-icon"
+import Layers from "./layers"
 
 interface RoomEditorProps {
   initialData: DocumentData[]
 }
 
 const RoomEditor: React.FC<RoomEditorProps> = ({ initialData }) => {
-  const [points, setPoints] = useState<DocumentData[]>(initialData)
-  const [selectedPoint, setSelectedPoint] = useState<DocumentData | null>(null)
-  const [isHovered, setIsHovered] = useState(false)
-
-  const handlePointClick = (pointId: string) => {
-    const point = points.find((p) => p.id === pointId)
-    setSelectedPoint(point || null)
-  }
-  console.log(selectedPoint)
   return (
-    <div className="flex gap-4 w-full h-full">
-      <div
-        className="relative w-2/3"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
+    <div className="relative flex w-full h-screen bg-[#1f1f1f] overflow-x-auto">
+      <div className="aspect-[1240/873] h-full relative mx-auto">
+        <ScrollIcon className="fixed top-10 left-10 w-14 h-14 xl:hidden" />
         <Image
           className="w-full h-full"
           src="https://firebasestorage.googleapis.com/v0/b/visualizer-new-devs-test.appspot.com/o/base.jpeg?alt=media&token=358ccdea-3cf9-4751-ae48-4631e4700554"
           alt="Room Base"
-          width={1000}
-          height={1000}
+          width={1240}
+          height={873}
         />
-        {isHovered && (
-          <Points points={points} onPointClick={handlePointClick} />
-        )}
+        <Layers points={initialData} />
+        <Points points={initialData} />
       </div>
-      <MaterialSelector selectedPointData={selectedPoint?.materials} />
     </div>
   )
 }
