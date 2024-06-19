@@ -1,13 +1,13 @@
-import { DocumentData } from "firebase/firestore"
 import Image from "next/image"
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
 import { setSelectionSelector, useStore } from "@/app/utils/store"
 import clsx from "clsx"
 import { Suspense } from "react"
 import Skeleton from "./skeleton"
+import { type Material } from "../types/materials"
 
 interface MaterialSelectorProps {
-  materials: DocumentData[]
+  materials: Material[]
   pointId: string
 }
 const MaterialSelector: React.FC<MaterialSelectorProps> = ({
@@ -16,17 +16,19 @@ const MaterialSelector: React.FC<MaterialSelectorProps> = ({
 }) => {
   const setSelection = useStore(setSelectionSelector)
   const selection = useStore((state) => state.selection)
-  const handleClick = (materialId: string) => {
+  const handleClick = (materialId: string): void => {
     setSelection({ [pointId]: materialId })
   }
 
   return (
     <div className="h-2/3 flex flex-col gap-y-3">
-      {materials?.map((material: DocumentData) => {
+      {materials?.map((material: Material) => {
         return (
           <DropdownMenu.Item key={material.id} className="outline-white">
             <button
-              onClick={() => handleClick(material.id)}
+              onClick={() => {
+                handleClick(material.id)
+              }}
               className={clsx(
                 "w-full p-2 flex gap-2 items-center justify-between rounded-md",
                 selection?.[pointId] === material.id

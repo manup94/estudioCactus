@@ -1,20 +1,20 @@
 "use client"
-import { DocumentData } from "firebase/firestore"
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
 import MaterialSelector from "./material-selector"
 import { AnimatePresence, motion } from "framer-motion"
 import { useState } from "react"
+import { type PointWithMaterials } from "../types/points"
 
 interface PointsProps {
-  points: DocumentData[]
+  points: PointWithMaterials[]
 }
 
 const Points: React.FC<PointsProps> = ({ points }) => {
-  const [openDropdowns, setOpenDropdowns] = useState<{
-    [key: string]: boolean
-  }>({})
+  const [openDropdowns, setOpenDropdowns] = useState<Record<string, boolean>>(
+    {}
+  )
 
-  const handleOpenChange = (pointId: string, isOpen: boolean) => {
+  const handleOpenChange = (pointId: string, isOpen: boolean): void => {
     setOpenDropdowns((prev) => ({ ...prev, [pointId]: isOpen }))
   }
   return points.map((point, i) => {
@@ -22,7 +22,9 @@ const Points: React.FC<PointsProps> = ({ points }) => {
       <DropdownMenu.Root
         key={point.id}
         open={openDropdowns[point.id] || false}
-        onOpenChange={(isOpen) => handleOpenChange(point.id, isOpen)}
+        onOpenChange={(isOpen) => {
+          handleOpenChange(point.id, isOpen)
+        }}
       >
         <DropdownMenu.Trigger
           id={point?.id}

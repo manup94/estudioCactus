@@ -1,8 +1,11 @@
 import { db } from "@/../firebase/init"
 import { collection, getDocs } from "firebase/firestore"
 import RoomEditor from "./components/room-editor"
+import { materialSchema } from "./schemas/materialSchema"
+import { pointsSchema } from "./schemas/pointSchema"
+import type { PointWithMaterials } from "./types/points"
 
-const RoomConfigurator: React.FC = async () => {
+const RoomConfigurator: React.FC = async (): Promise<JSX.Element> => {
   const initalData = await fetchData()
 
   return (
@@ -12,7 +15,7 @@ const RoomConfigurator: React.FC = async () => {
   )
 }
 
-async function fetchData() {
+async function fetchData(): Promise<PointWithMaterials[]> {
   const pointsCollection = collection(db, "points")
   const materialsCollection = collection(db, "materials")
 
@@ -20,13 +23,11 @@ async function fetchData() {
   const materialsSnapshot = await getDocs(materialsCollection)
 
   const pointsList = pointsSnapshot.docs.map((doc) => ({
-    ...doc.data(),
+    ...pointsSchema.parse(doc.data()),
     id: doc.id,
   }))
   const materialsList = materialsSnapshot.docs.map((doc) => ({
-    ...(doc.data() as {
-      points: string[]
-    }),
+    ...materialSchema.parse(doc.data()),
     id: doc.id,
   }))
 

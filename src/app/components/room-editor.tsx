@@ -1,11 +1,11 @@
 import Image from "next/image"
 import Points from "./points"
-import { DocumentData } from "firebase/firestore"
 import ScrollIcon from "../icons/scroll-icon"
 import Layers from "./layers"
+import { type PointWithMaterials } from "../types/points"
 
 interface RoomEditorProps {
-  initialData: DocumentData[]
+  initialData: PointWithMaterials[]
 }
 
 const RoomEditor: React.FC<RoomEditorProps> = ({ initialData }) => {

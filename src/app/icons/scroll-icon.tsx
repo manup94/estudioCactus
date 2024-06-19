@@ -1,4 +1,4 @@
-export default function ScrollIcon({ ...props }) {
+export default function ScrollIcon({ ...props }): JSX.Element {
   return (
     <svg
       fill="#000000"
